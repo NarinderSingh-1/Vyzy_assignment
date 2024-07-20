@@ -1,0 +1,63 @@
+<a href="/" class="btn btn-primary ms-3 mt-3">Home</a>
+<div class="container mt-3">
+  <h1 class="mb-4">YCombinator Scraper</h1>
+  <%= form_with url: scraper_path, method: :get, local: true, class: "mb-4" do %>
+    <div class="form-row">
+      <div class="form-group mb-2">
+        <label class="col-3" for="url">URL:*</label>
+        <input type="text" required name="url" id="url" class="col-6" value="<%= params[:url] %>">
+      </div>
+      <div class="form-group mb-2">
+        <label class="col-3" for="company_count">Number of Companies:*</label>
+        <input type="number" required name="company_count" id="company_count" class="col-6" value="<%= params[:company_count] %>">
+      </div>
+    </div>
+
+    <div class="form-group mb-2">
+      <div class="row">
+        <label class="col-3" for="filters">Filters:(optional)</label>
+        <%= form_filters %>
+      </div>
+    </div>
+
+    <div class="form-group mb-2">
+      <button type="submit" class="btn btn-primary">Start Scrape</button>
+    </div>
+  <% end %>
+
+  <% if @headings.present? %>
+    <h2 class="mb-4">Companies Data</h2>
+    <h6 class="text-info">You can download CSV file from   <%= link_to 'Click Here', '/scraped_data.csv', class: 'btn btn-success' %>
+    </h6>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>YC Batch</th>
+            <th>Tags</th>
+            <th>Website</th>
+            <th>Founders</th>
+            <th>LinkedIn URLs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @headings[:companies]&.each do |company| %>
+            <tr>
+              <td><%= company[:name] %></td>
+              <td><%= company[:location] %></td>
+              <td><%= company[:description] %></td>
+              <td><%= company[:YC_batch] %></td>
+              <td><%= company[:all_tags]&.join(', ') %></td>
+              <td><%= company[:owner_details][:website] %></td>
+              <td><%= company[:owner_details][:founder_names]&.join(', ') %></td>
+              <td><%= company[:owner_details][:founder_linkedIn_urls]&.join(', ') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
