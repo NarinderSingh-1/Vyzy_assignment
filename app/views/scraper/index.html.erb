@@ -25,8 +25,9 @@
     </div>
   <% end %>
 
-  <% if @headings.present? %>
+  <% if @companies.present? %>
     <h2 class="mb-4">Companies Data</h2>
+    <h6 class="text-warning"><%= @companies[:status] %></h6>
     <h6 class="text-info">You can download CSV file from   <%= link_to 'Click Here', '/scraped_data.csv', class: 'btn btn-success' %>
     </h6>
     <div class="table-responsive">
@@ -44,7 +45,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @headings[:companies]&.each do |company| %>
+          <% @companies[:companies]&.each do |company| %>
             <tr>
               <td><%= company[:name] %></td>
               <td><%= company[:location] %></td>
